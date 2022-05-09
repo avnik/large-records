@@ -95,6 +95,8 @@ library
       -Wall
       -Wredundant-constraints
       -Wno-unticked-promoted-constructors
+  if flag(with-aeson-instances)
+    cpp-options: -DWITH_AESON_INSTANCES
 
   if impl(ghc >= 8.10)
     ghc-options:
@@ -180,7 +182,17 @@ test-suite test-large-anon
     -- Work out ghc problem. See more detailed discussion in large-records.
     ghc-options: -Wno-unused-imports
 
+  -- instances enabled for tests by default
+  cpp-options: -DWITH_AESON_INSTANCES
+
 Flag debug
   Description: Enable internal debugging features
   Default: False
   Manual: True
+
+flag with-aeson-instances
+  description: Enable Aeson instances
+  -- don't let the solver fiddle with the flag
+  manual: True
+  -- with instances by default
+  default: True
